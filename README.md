@@ -37,3 +37,29 @@ call to va_end().
 
 After a variable argument list is invalidated by va_end(), it can be reinitialized with va_start() or made a copy of another 
 variable argument list with va_copy().
+
+ #include <stdio.h>
+
+     int
+     printf(const char * restrict format, ...);
+     
+  the printf() family of functions produces output according to a format as described below. 
+  
+  Extended locale versions of these functions are ducumented in printf_l(3). see xlocale(3)
+  
+  These functions write the output under the control of a format string that specifies how subsequent arguments
+  (or arguments accessed via the variable-length argument facilities of stdarg(3)) are converted for output.
+  
+  The format string is composed of zero or more directives: ordinary characters (not %), which are copied unchanged to 
+  the output stream; and conversion specifications, each of which results in fetching zero or more subsequent arguments.
+  Each conversion specification is introduced by the % charactor. The arguments must correspond properly 
+  (after type promotion) with the cnoversion specifier. After the %, the following appear in sequence.
+  
+  
+  
+  
+  
+  
+  
+  
+  
