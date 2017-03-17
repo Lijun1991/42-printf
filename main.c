@@ -19,13 +19,13 @@ int main(void)
 	setlocale(LC_ALL, "en_US.UTF-8");
 
 	// diouxX // the int argument is converted to
-	int signed_decimal_di = -5; // convert int to 10 base signed decimal
-	int unsigned_octal_o = 500; // convert int 500 to 8 base unsiged octal 764
+	int a = -5; // convert int to 10 base signed decimal
+	int b = 500; // convert int 500 to 8 base unsiged octal 764
    								// 764(8 base) = 7x8*2 + 6x8*1 + 4x8*0 = 500(10 base)	
-	int unsigned_decimal_u = 5;
-	int unsigned_hexadecimal_x = 15666; // convert int to unsigned hexadecimal 16 base
+	int cc = 5;
+	int d = 15666; // convert int to unsigned hexadecimal 16 base
 										// why can't change this to -15666????
-	int unsigned_hexadecimal_X = 14;
+	int e = 14;
 	
 
 	// ld lo lu // the long int argument is converted to 
@@ -34,7 +34,7 @@ int main(void)
 	long int unsigned_decimal_lu = 2555;
 
 	
-	// c C=lc n //the int argument is converted to an unsigned char, and the resulting character is written
+	// c C=lc n s S=ls//the int argument is converted to an unsigned char, and the resulting character is written
 	int convert_int_to_unsigned_char = 40;
 	int convert_int_to_unsigned_char_lc = 10084;
 	char *s = (char*)malloc(sizeof(char) * 6);
@@ -48,10 +48,12 @@ int main(void)
 	v = "HELLO";
 	int *count;
 	char c = 'A';
-	int nbr = 5;
+	short nbr = 5;
 
 
-	printf("the signed_decimal_di is %i\nthe unsigned_octal_o is %o\nthe unsigned_decimal_u is %u\nthe unsigned_hexadecimal_x is %x\nthe unsigned_hexadecimal_X is %X\n\n", signed_decimal_di, unsigned_octal_o, unsigned_decimal_u, unsigned_hexadecimal_x, unsigned_hexadecimal_X);
+	printf("convert int %d to signed decimal (di) is %i\nconvert int %d to unsigned octal(o) \
+is %o\nconvert int %d to unsigned decimal(u) is %u\nconvert int %d to unsigned hexadecimal(x) \
+is %x\nconvert %d to unsigned hexadecimal(X) is %X\n\n", a, a, b, b, cc, cc, d, d, e, e);
 
 	printf("convert long_int to signed_decimal_ld is %ld\n\n", signed_decimal_ld);
 
@@ -63,20 +65,25 @@ int main(void)
 	printf("%%\n\n");
 
 	//flags # 0 - + space *
-	printf("%d%c\n", nbr, c);
-	printf("%#x%c\n", 11, c);
-	printf("%0d%c\n", 5, c);
-	printf("%-d%c\n", 5, c);
-	printf("%+d%c\n", 5, c);
-	printf("% d%c\n", 5, c);
+	// printf("%d%c\n", 5, c);
+	// printf("%#x%c\n", 11, c);
 
-	printf("%#*x%c\n", 11, 6, c);
-	printf("%0*d%c\n", 5, 6, c);
-	printf("%-*d%c\n", 5, 6, c);
-	printf("%+*d%c\n", 5, 6, c);
-	printf("% *d%c\n", 5, 6, c);
+	// printf("%0d%c\n", 5, c);
+	// 	printf("%50d%c\n", 5, c);
+	printf("%-5.3hd%c\n", nbr, c);
+	printf("%-5.3s%c\n", s, c);
+	// printf("%-5d%c\n", 5, c);
+	// printf("%+d%c\n", 5, c);
+	// printf("% 8d%c\n", 5, c);
 
-	// printf("%1$d:%2$.*3$d:%4$.*3$d\n", hour, min, precision, sec);
+	// printf("%#*x%c\n", 11, 6, c);
+	// printf("%.*d%c\n", 5, 6, c);
+	// printf("%-*d%c\n", 5, 6, c);
+	// printf("%+*d%c\n", 5, 6, c);
+	// printf("% *d%c\n", 5, 6, c);
+
+	// printf("%1$d:%2$.*3$d:%4$.*3$d\n", 9, 8, 7, 2);
+	printf("Le fichier\e[106m%s{eoc} contient : \e[101m%s{eoc}", s, s);
 	return (0);
 }
 
