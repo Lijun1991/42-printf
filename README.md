@@ -4,39 +4,50 @@ Rewrite c printf functions
 man 3 stdarg
 stdarg -- variable argument lists
 
-A function may be called with a varying number of arguments of varying types. 
-The include file <stdarg.h> declares a type (va_list) and defines three macros for stepping through a list of arguments 
-whose number and types are not known to the called function.
+USE STDARG
 
-The called function must declare an object of type va_list which is used by the macros va_start(), va_arg(), va_copy, and va_end().
+To use a function with a variable number of arguments, you must first of all include the library that will help your deal with the processing of the varying arguments, stdarg.h. You must therefore include this library in your program with a #include statement, along with your library references, like the following:
 
-The va_star() macro must be called first, and it initializes ap, which can be passed to va_arg() for each argument to be processed.
-Calling va_end() signals that there are no further arguments, and causes ap to be invalidated. 
-Note that each call to va_start() must be matched by a call to va_end(), form within the same function.
+  #include <stdarg.h>
 
-The parameter last is the name of the last parameter before the variable argument list
+To declare a function that will use a variable number of arguments, you must make sure you have at least one defined argument in the argument list; that is, a specific argument with a name and type associated with it. You can have as many real arguments as you would like; you just have to have at least one.
 
-Because the address of this parameter is used in the va_start() macro, it should not be declared as a register variable,
-or as a function or as array type.
+Following the last defined argument, you should place the C-symbol that indicates your use of a variable number of arguments, the ellipsis, or ... (three periods in a row). An example would look like this:
 
-The va_arg() macro expands to an expression that has the type and value of the next argument in the call.
-The parameter ap is the va_list ap initialized by va_start().
-Each all to va_arg() modifies ap so that the next call returns the next argument.
-The parameter type is a type name specified so that the type of a pointer to an object that has the specified type can be 
-obtained simply by adding a * to type.
+  type functionName (defined_args, ...)
 
-If there is no next argument, or if type is not compatible with the type of the actual next argument (as promoted according to
-the default arguments), random error will occur.
+You control the access of the variable arguments with the following definitions/functions/macros provided in stdarg. All of these references must only appear inside the body of a function that will have a variable number of arguments (as denoted by the ellipsis):
 
-The first use of the va_arg() macro after that of the va_start() macro returns the argument after last. 
-Successive invacations return the values of the remainning arguments.
+va_list varname;
+This is the name of a structure that will maintain the information about the variable argument list, and it is therefore used in each of the following functions/macros. NOTE that the va stands for variable arguments. And example might be:
+  va_list args;
 
-The va_copy() macro copies the state of the variable argument list, src, previously initialized by va_start(),
-to the variable argument list, dest, which must not have been previousely initialized by va_start(), without an intervening
-call to va_end(). 
+va_start (varname, last_defined_arg)
+This function initializes the processing of the variable argument list. The first parameter corresponds to the variable name you used when you defined the va_list structure. The second parameter corresponds to the variable name of the last defined argument in the argument list in the function's definition.
+This function must be called before you try to reference any of the variable arguments. If it is called more than one time inside a function, the processing of the list of variable arguments will start over again at the first variable argument. An example would be:
 
-After a variable argument list is invalidated by va_end(), it can be reinitialized with va_start() or made a copy of another 
-variable argument list with va_copy().
+  void foo (int num, ...)
+  {
+    va_list args;
+
+    va_start (args, num);
+
+va_arg (varname, typename)
+This function is the one you use to access the value of each variable argument. The first parameter corresponds to the variable name you used when you defined the va_list structure. The second parameter corresponds to the type of the value that is passed.
+This is why you have not only have to be able to predeterine the number of arguments that will be passed, but also the type of each individual argument.
+
+The va_arg() function will return to you to the corresponding value of the next variable argument in turn. This simply means that the first time va_arg() is called, it will return the value of the first variable argument passed in this invocation of the function, the second time it is called it will return the value of the second variable argument passed, and so forth. Here are some examples:
+
+  int num1 = va_arg(args,int);
+  float num2 = va_arg(args,float);
+
+va_end (varname)
+This function you call at the very end of your function, right before you return. It's job is to place the system stack in order, and prepare to return to the calling routine. It only has to be called once and it doesn't have to be called each time you'd like to reuse the argument list. Here is an example:
+  va_end (args);
+
+You simply combine this declaration and three function/macro calls to properly process the variable argument list. The following sections show several example programs that utilize variable parameter lists using the various methods previously described.
+
+
 
  #include <stdio.h>
 
