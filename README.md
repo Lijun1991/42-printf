@@ -72,6 +72,11 @@ You simply combine this declaration and three function/macro calls to properly p
     If the l(ell) modifier is used, the wint_t argument shall be converted to a wchar_t, and the (potentially multi-byte)
     sequence representing the single wide character is written, including any shift sequences. If a shift sequence is used,
     the shift state is also restored to the original state after the character.
+    
+    
+    
+    A ducumentation better than man 3 printf 
+    https://linux.die.net/man/3/printf
   
   
   
