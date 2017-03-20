@@ -78,9 +78,8 @@ You simply combine this declaration and three function/macro calls to properly p
     A ducumentation better than man 3 printf 
     https://linux.die.net/man/3/printf
   
-  
-  
-  
+    What is struct bits filed?
+    https://www.tutorialspoint.com/cprogramming/c_bit_fields.htm
   
   
   
