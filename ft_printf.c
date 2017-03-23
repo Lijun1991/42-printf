@@ -84,6 +84,8 @@ char	*get_precision(t_info *conver_info, char *str)
 		while (*str >= '1' && *str <= '9')
 		str++;
 	}
+	if (!str)
+		ft_putstr("Invalid format");
 	return (str);
 }
 
