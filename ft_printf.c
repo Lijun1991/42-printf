@@ -40,38 +40,41 @@
 
 
 char	*get_length_modi(t_info *conver_info, char *str)
-{	char *s;
-	size_t len;
-
-	conver_info->len_mod_info = (t_len_m*)malloc(sizeof(t_len_m) * 1); // malloc #2
-	ft_bzero(conver_info->len_mod_info, sizeof(t_len_m));  // bzero can be used to initialize any data struct
-	s = (char*)malloc(sizeof(char) * 2); // malloc #3;
-	while (*str == 'h' || *str == 'l' || *str == 'j' || *str == 'z') 
+{	
+	strcpy(conver_info->len_mod, "\0\0\0");
+	if (ft_strncmp(str, "ll", 2) == 0)
 	{
-		*s = *str;
-		s++;
+		strcpy(conver_info->len_mod, "ll");
+		str++;
+		str++;
+	}
+	else if (ft_strncmp(str, "hh", 2) == 0)
+	{
+		strcpy(conver_info->len_mod, "hh");
+		str++;
+		str++;
+	}
+	else if (ft_strncmp(str, "l", 1) == 0)
+	{
+		strcpy(conver_info->len_mod, "l");
+		str++;
+	}
+	else if (ft_strncmp(str, "h", 1) == 0)
+	{
+		strcpy(conver_info->len_mod, "h");
+		str++;
+	}
+	else if (ft_strncmp(str, "j", 1) == 0)
+	{
+		strcpy(conver_info->len_mod, "j");
+		str++;
+	}
+	else if (ft_strncmp(str, "z", 1) == 0)
+	{
+		strcpy(conver_info->len_mod, "z");
 		str++;
 	}
 	conver_info->conversion_specifier = *str;
-	len = ft_strlen(s);
-	if (len == 1)
-	{
-		if (s[0] == 'h')
-			conver_info->len_mod_info->short_int = 'h';
-		else if (s[0] == 'l')
-			conver_info->len_mod_info->long_int = 'l';
-		else if (s[0] == 'j')
-			conver_info->len_mod_info->intmax = 'j';
-		else if (s[0] == 'z')
-			conver_info->len_mod_info->sizet = 'z';
-	}
-	if (len == 2)
-	{
-		if (s[0] == 'h')
-			ft_strcpy(conver_info->len_mod_info->signed_un_char, "hh");
-		else
-			ft_strcpy(conver_info->len_mod_info->long_long_int, "ll");
-	}
 	return (str);
 }
 
@@ -125,58 +128,66 @@ void	get_less_conversion_specifier(char s, t_info *conver_info)
 {
 	if (s == 'i')
 		conver_info->conversion_specifier = 'd';
-	// if (s == 'p')
-	// 	conver_info->conversion_specifier = 'x';
+	if (s == 'p')
+	{
+		strcpy(conver_info->len_mod, "l");
+		conver_info->conversion_specifier = 'x';
+	}
 	if (s == 'D')
 	{
-		conver_info->len_mod_info->long_int = 'l';
+		strcpy(conver_info->len_mod, "l");
 		conver_info->conversion_specifier = 'd';
 	}
 	if (s == 'O')
 	{
-		conver_info->len_mod_info->long_int = 'l';
+		strcpy(conver_info->len_mod, "l");
 		conver_info->conversion_specifier = 'o';
 	}
 	if (s == 'U')
 	{
-		conver_info->len_mod_info->long_int = 'l';
+		strcpy(conver_info->len_mod, "l");
 		conver_info->conversion_specifier = 'u';
 	}
 }
 
 intmax_t	number_to_print_signed(t_info *conver_info, va_list args)
 {
-	if (conver_info->len_mod_info)
+	if (ft_strlen(conver_info->len_mod) != 0)
 	{
-		if (ft_strncmp(conver_info->len_mod_info->signed_un_char, "hh", 2) == 0)
+		if (ft_strncmp(conver_info->len_mod, "hh", 2) == 0)
 			return ((char)va_arg(args, int));
-		if (conver_info->len_mod_info->short_int == 'h')
+		if (ft_strncmp(conver_info->len_mod, "h", 1) == 0)
 			return ((short)va_arg(args, int));
-		if (conver_info->len_mod_info->long_int == 'l')
+		if (ft_strncmp(conver_info->len_mod, "l", 1) == 0)
 			return (va_arg(args, long int));
-		if (ft_strncmp(conver_info->len_mod_info->long_long_int, "ll", 2) == 0)
+		if (ft_strncmp(conver_info->len_mod, "ll", 2) == 0)
 			return (va_arg(args, long long int));
-		if (conver_info->len_mod_info->intmax == 'j')
+		if (ft_strncmp(conver_info->len_mod, "j", 1) == 0)
 			return (va_arg(args, intmax_t));
-		if (conver_info->len_mod_info->sizet == 'u')
+		if (ft_strncmp(conver_info->len_mod, "z", 1) == 0)
 			return (va_arg(args, size_t));
 	}
 	return (va_arg(args, int)); 
 }
 
-intmax_t	number_to_print_unsigned(t_info *conver_info, va_list args, char s)
+intmax_t	number_to_print_unsigned(t_info *conver_info, va_list args)
 {
-	if (s == 'u')
-		return (va_arg(args, unsigned int));
-	if (s == 'o')
-		return (va_arg(args, unsigned int));
-	if (s == 'x')
-		return (va_arg(args, unsigned int));
-	if (s == 'X')
-		return (va_arg(args, unsigned int));
-	if (s == 'p')
-		return (va_arg(args, unsigned int));  // 0xfffffffffffffdd5 &&  0xfffffdd5 ???? what to cast for p????????.........
-	return (0);
+	if (ft_strlen(conver_info->len_mod) != 0)
+	{
+		if (ft_strncmp(conver_info->len_mod, "hh", 2) == 0)
+			return ((unsigned char)va_arg(args, unsigned int));
+		if (ft_strncmp(conver_info->len_mod, "h", 1) == 0)
+			return ((unsigned short)va_arg(args, unsigned int));
+		if (ft_strncmp(conver_info->len_mod, "l", 1) == 0)
+			return (va_arg(args, unsigned long int));
+		if (ft_strncmp(conver_info->len_mod, "ll", 2) == 0)
+			return (va_arg(args, unsigned long long int));
+		if (ft_strncmp(conver_info->len_mod, "j", 1) == 0)
+			return (va_arg(args, uintmax_t));
+		if (ft_strncmp(conver_info->len_mod, "z", 1) == 0)
+			return (va_arg(args, size_t));
+	}
+	return (va_arg(args, unsigned int)); 
 }
 
 void	print_str(char *str)
@@ -207,7 +218,7 @@ int	print_sign(intmax_t nbr, t_info *conver_info, int sign)
 		pre_sign = " \0";
 		sign = 1;
 	}
-	else if (conver_info->conversion_specifier == 'p')
+	else if (conver_info->conversion_specifier == 'x' && ft_strncmp(conver_info->len_mod, "l", 1) == 0)
 	{
 		pre_sign = "0x\0";
 		sign = 2;
@@ -277,10 +288,10 @@ void	print_exit_precision(t_info *conver_info, char *str, int sign, int len)
 			else
 			{
 				i = conver_info->field_width - conver_info->precision - sign;
+				while (i-- > 0) 
+					ft_putchar(' ');
 				ft_putstr(conver_info->pre_sign);
 				print_str(str);
-				while (i-- > 0) 
-					ft_putchar(' ');  
 			}
 		}
 		else
@@ -296,9 +307,9 @@ void	print_exit_precision(t_info *conver_info, char *str, int sign, int len)
 			else
 			{
 				i = conver_info->field_width - conver_info->precision - sign;
-				ft_putstr(conver_info->pre_sign);
 				while (i-- > 0) 
 					ft_putchar(' ');
+				ft_putstr(conver_info->pre_sign);
 				j = conver_info->precision - len;
 				while (j-- > 0)
 					ft_putchar('0');
@@ -421,7 +432,8 @@ void	print_result(intmax_t nbr, t_info *conver_info, int base)
 	len = 49 - i;
 
 	while (i >= 0)
-		str[--i] = '*';  
+		str[--i] = '*'; 
+	// ft_putstr(str); // is it becaluse here ??????? l/ll/h/hh not working for d!!!! .......................
 	print_nbr(conver_info, str, sign, len);
 }
 
@@ -462,8 +474,9 @@ void	print_number_conversion(t_info *conver_info, char c, va_list args)
 	if (conver_info->conversion_specifier == 'd')
 		nbr = number_to_print_signed(conver_info, args); // d, int converted to singed decimal, l/ll/h/hh/j/z int converted to correspons value
 	else
-		nbr = number_to_print_unsigned(conver_info, args, c);
-	// ft_putnbr(nbr);
+		nbr = number_to_print_unsigned(conver_info, args);
+	// printf("nbr is %ld", nbr);
+
 	if (conver_info->conversion_specifier == 'd' || conver_info->conversion_specifier == 'u')
 		print_result(nbr, conver_info, 10);
 	else if (conver_info->conversion_specifier == 'o')
@@ -472,15 +485,31 @@ void	print_number_conversion(t_info *conver_info, char c, va_list args)
 		print_result(nbr, conver_info, 16);
 	else if (conver_info->conversion_specifier == 'X')
 		print_result_capx(nbr, conver_info, 16);
-	else if (conver_info->conversion_specifier == 'p')
-		print_result(nbr, conver_info, 16);
+	// else if (conver_info->conversion_specifier == 'p')
+	// 	print_result(nbr, conver_info, 16);
 
 }
 
-// void	print_char_conversion(t_info *conver_info, char c, va_list args)
-// {
+void	print_char_conversion(t_info *conver_info, char c, va_list args)
+{
+	char chara;
 
-// }
+	if (c == 'C' || c == 'S')
+	{
+		strcpy(conver_info->len_mod, "l");
+		conver_info->conversion_specifier = ft_tolower(c);
+	}
+	if (conver_info->conversion_specifier == 'c')
+	{
+		chara = (unsigned char)va_arg(args, int);
+		ft_putchar(chara);    // ....................
+	}
+	if (conver_info->conversion_specifier == 's')
+	{
+		chara = (unsigned char)va_arg(args, int);
+		ft_putchar(string);    // ....................
+	}
+}
 
 char	*print_convert_result(char *str, va_list args)
 {
@@ -489,10 +518,11 @@ char	*print_convert_result(char *str, va_list args)
 	str = get_field_width(&conver_info, str);
 	str = get_precision(&conver_info, str);
 	str = get_length_modi(&conver_info, str);
-	if (ft_strchr("diouxXDOUp", conver_info.conversion_specifier))
+	// ft_putchar(conver_info.conversion_specifier);
+	if (ft_strchr("diouxXDOUp", conver_info.conversion_specifier))  // ll/l/hh/h/j/z ouxX not wok=rking ????????
 		print_number_conversion(&conver_info, conver_info.conversion_specifier, args);
-	// else if (ft_strchr("cCsS", conver_info.conversion_specifier))
-	// 	print_char_conversion(&conver_info, conver_info.conversion_specifier, args);  .................
+	else if (ft_strchr("cCsS", conver_info.conversion_specifier))
+		print_char_conversion(&conver_info, conver_info.conversion_specifier, args);
 	else
 		ft_putstr("unsupported conversion specifier");
 	str++;
@@ -522,3 +552,4 @@ void	ft_printf(char *format, ...)
 	}
 	va_end(args);
 }
+
