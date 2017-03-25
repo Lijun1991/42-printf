@@ -16,6 +16,7 @@ int main(void)
 {
 	setlocale(LC_ALL, "en_US.UTF-8");
 
+	// t_info conver_info;
 	// diouxX // the int argument is converted to
 	// int a = -5; // convert int to 10 base signed decimal
 	// int b = 500; // convert int 500 to 8 base unsiged octal 764
@@ -23,17 +24,20 @@ int main(void)
 	// int cc = 5;
 	// int d = 15666; // convert int to unsigned hexadecimal 16 base
 										// why can't change this to -15666????
-	long long int e = 2147483647;
-	// char c = 'a';
+	long long e = 214748223647; // lld/lli
+	signed int i = 2115;
+	char c = 'a'; // hhc
+	short int t = 8;
+	int nbr =-10;
+	void *s = (void*)-555;  //'8'
 	
 	// printf("the int is %#X\n", e);
 	// ft_printf("the int is %X\n", e);
 	// printf("the int is %02d\n", e);
 
-
-	printf("the int is %--12.15lldhaha\n", e);
-	printf("the int is %-5.3lldhaha\n", e);
-
+	///////ft_printf("the int is %-#+ 0125852.15dhaha\n", i);
+	printf("the printf is %-10.12hhdhaha\n", e);  // why not the same when print -555 for p
+	ft_printf("the ft_printf %-10.12hhdhaha\n", e);
 
 // 	// ld /lo lu // the long int argument is converted to 
 // 	long int f = 2147483647; 	
