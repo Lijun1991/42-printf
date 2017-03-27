@@ -43,12 +43,66 @@
 //     }
 // }
 
+            // if (ft_nbrlen(nbr) >= conver_info.field_width && ft_nbrlen(nbr) >= conver_info.precision)
+            // {
+            //     if (conver_info.flag_info.hash == '#' && conver_info.flag_info.minus == '-' && conver_info.flag_info.plus == '+' && conver_info.flag_info.space == ' ' && conver_info.flag_info.zero == '0')
+            //         ft_putchar('+');
+            //     if (conver_info.flag_info.hash == 'n' && conver_info.flag_info.minus == '-' && conver_info.flag_info.plus == '+' && conver_info.flag_info.space == ' ' && conver_info.flag_info.zero == '0')
+            //         ft_putchar('+');
+            //     if (conver_info.flag_info.hash == 'n' && conver_info.flag_info.minus == 'n' && conver_info.flag_info.plus == '+' && conver_info.flag_info.space == ' ' && conver_info.flag_info.zero == '0')
+            //         ft_putchar('+');
+            //     if (conver_info.flag_info.hash == 'n' && conver_info.flag_info.minus == 'n' && conver_info.flag_info.plus == 'n' && conver_info.flag_info.space == ' ' && conver_info.flag_info.zero == '0')
+            //         ft_putchar(' ');
+            //     // if (conver_info.flag_info.hash == 'n' && conver_info.flag_info.minus == 'n' && conver_info.flag_info.plus == 'n' && conver_info.flag_info.space == 'n' && conver_info.flag_info.zero == '0')
+            //     //  do nothing;
+            //     // if (conver_info.flag_info.hash == 'n' && conver_info.flag_info.minus == 'n' && conver_info.flag_info.plus == 'n' && conver_info.flag_info.space == 'n' && conver_info.flag_info.zero == 'n')
+            //     //  do nothing;
+            //     ft_putnbr(nbr);
+            // }
+
+
+static int      ft_abs(int nb)
+{
+    if (nb < 0)
+        nb = -nb;
+    return (nb);
+}
+
+char    *ft_itoa_base(unsigned int value, int base)
+{
+    char    *str;
+    int     size;
+    char    *tab;
+    int     flag;
+    int     tmp;
+    flag = 0;
+    size = 0;
+    tab = "0123456789ABCDEF";
+    if (base < 2 || base > 16)
+        return (0);
+    if (base == 10)
+        flag = 1;
+    tmp = value;
+    while (tmp /= base)
+        size++;
+    size = size + flag + 1;
+    str = (char *)malloc(sizeof(char) * size  + 1);
+    str[size] = '\0';
+    if (flag == 1)
+        str[0] = '-';
+    while (size > flag)
+    {
+        str[size - 1] = tab[ft_abs(value % base)];
+        size--;
+        value /=base;
+    }
+    return (str);
+}
+
 int main(void)
 {
-    // 4294967295
-    unsigned int d = 4294967295;
-    // ft_unsignedint_to_hexa(d);
-    // ft_print_unsigned_int(d);
-    print_unsignedint_to_base_x(d, 16);
+    // unsigned int d = 4294967295;
+    // int i = 1225555;
+    ft_putstr(ft_itoa_base(4294967295, 10));
     return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: lwang <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 17:34:36 by lwang             #+#    #+#             */
-/*   Updated: 2016/12/06 19:08:53 by lwang            ###   ########.fr       */
+/*   Updated: 2017/03/20 17:35:51 by lwang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstiter(t_list*lst, void(*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 char				*ft_strmerge(char *a, char *b);
+int					ft_nbrlen(int nbr);
 
 int					num_count(int n);
 void				print_bits(unsigned char octet);
