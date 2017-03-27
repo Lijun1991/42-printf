@@ -82,8 +82,13 @@ You simply combine this declaration and three function/macro calls to properly p
     https://www.tutorialspoint.com/cprogramming/c_bit_fields.htm
     
     
-    The difference between wint_t and wchar_t 
+    The difference between wint_t and wchar_t?
     All of the Unicode values map to 0x0000 to 0x10FFFF
+    
+    wchar_t is large enough to store characters, or codepoints if you prefer. As such, they are unsigned. They are analogous to char, which was, in virtually all platforms, limited to 8-bit 256 values. So wide-char strings variables are naturally arrays or pointers of this type.
+Now enter string functions, some of which need to be able to return any wchar_t plus additional statuses. So their return type must be larger than wchar_t. So wint_t is used, which can express any wide char and also WEOF. Being a status, it can also be negative (and usually is), hence wint_t is most likely signed. I say "possibly" because the C standard does not mandate it to be. But regardless of sign, status values need to be outside the range of wchar_t. They are only useful as return vales, and never meant to store such characters.
+    
+    
   
   
   
