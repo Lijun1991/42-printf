@@ -80,7 +80,10 @@ You simply combine this declaration and three function/macro calls to properly p
   
     What is struct bits filed?
     https://www.tutorialspoint.com/cprogramming/c_bit_fields.htm
-  
+    
+    
+    The difference between wint_t and wchar_t 
+    All of the Unicode values map to 0x0000 to 0x10FFFF
   
   
   
