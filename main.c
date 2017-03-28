@@ -25,6 +25,7 @@ int main(void)
 	// int cc = 5;
 	// int d = 15666; // convert int to unsigned hexadecimal 16 base
 										// why can't change this to -15666????
+
 	// long long e = 214748223647; // lld/lli
 	// signed int i = 2115;
 	// char c = ','; // hhc
@@ -32,10 +33,19 @@ int main(void)
 	// int nbr =-10;
 	// void *s = (void*)-555;  //'8'
 	// int *n; //"12"
+
+	// long long e = 214748223647; // lld/lli
+	// signed int i = 2115;
+	// char c = 'a'; // hhc
+	// short int t = 8;
+	// int nbr =-10;
+	// void *s = (void*)-555;  //'8'
+
 	
 	// printf("the int is %#X\n", e);
 	// ft_printf("the int is %X\n", e);
 	// printf("the int is %02d\n", e);
+
 
 	// printf("the printf is %nhaha\n", n);   // how to print int *str????...for n.............
 	// printf("the printf is %5chaha\n", c); .....
@@ -51,6 +61,10 @@ int main(void)
 	// printf("the int is %--12.15lldhaha\n", e);
 	// printf("the int is %-5.3lldhaha\n", e);
 
+	///////ft_printf("the int is %-#+ 0125852.15dhaha\n", i);
+	// printf("the printf is %-10.12hhdhaha\n", e);  // why not the same when print -555 for p
+	// ft_printf("the ft_printf %-10.12hhdhaha\n", e);
+
 
 // 	// ld /lo lu // the long int argument is converted to 
 // 	long int f = 2147483647; 	
@@ -65,16 +79,16 @@ int main(void)
 	// char s[3];
 	// char c[4] = "❤";
 	// char *s = (char*)malloc(sizeof(char) * 6);
-	char *s = "Hello";
-	// wchar_t *ws = (wchar_t*)malloc(sizeof(wchar_t) * 4);
-	// ws = "❤❤❤";
+	// char *s = "Hello";
+	// wchar_t *ws = (wchar_t*)malloc(sizeof(wchar_t) * 50);
+	wchar_t ws[100] = L"❤d❤";  //HAHAH .........
 	// int *count = (int*)malloc(sizeof(int)*1);
 
 	// printf("the int %d convert to unsigned_char_lc is %-10lc and unitcode# is %x\nthe HTML code(10 base) is %d\n", j, j, j, j);
 	// ft_printf("ftp int %d convert to unsigned_char_lc is %-10lc and unitcode# is %x\nthe HTML code(10 base) is %d\n", j, j, j, j);
 
-	printf("the %10.7s\n", s);
-	// ft_printf("ftp %-10.2s\n", s);
+	printf("the %7.5lsand %c\n", ws, j);
+	ft_printf("ftp %7.5lsand %c\n", ws, j);
 
 
 	// s[0] = ((0x2764 & 0xF000) >> 12) + 0xE0;
