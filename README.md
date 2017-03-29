@@ -80,8 +80,14 @@
     
       What is struct bits filed?
       https://www.tutorialspoint.com/cprogramming/c_bit_fields.htm
- -  
- +    
- +    
- +    The difference between wint_t and wchar_t 
- +    All of the Unicode values map to 0x0000 to 0x10FFFF
+  
+ 
+  
+    The difference between wint_t and wchar_t 
+      wchar_t	Type used for a code unit in wide strings, usually an unsigned 16 bit or 32 bit value. No specific interpretation is specified for these code units; the C standard only requires that wchar_t be wide enough to hold the widest character set among the supported system locales.[5] Theoretically, wchar_t can be the same size as char, and thus not capable of holding UTF-32 or UTF-16 code points.[6]
+       wint_t	Integer type that can hold any value of a wchar_t as well as the value of the macro WEOF. This type is unchanged by integral promotions. Usually a 32 bit signed value.
+    
+    All of the Unicode values map to 0x0000 to 0x10FFFF
+    best recource to how unicode encoded:   https://en.wikipedia.org/wiki/UTF-8
+    
+    wcrtomb:	Converts a wide character to its multibyte representation, given state
