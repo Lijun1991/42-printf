@@ -91,3 +91,9 @@
     best recource to how unicode encoded:   https://en.wikipedia.org/wiki/UTF-8
     
     wcrtomb:	Converts a wide character to its multibyte representation, given state
+
+
+  Endianness?
+  The difference between float and double?
+  what can you use to hold ULLONG_MAX ????????
+  
