@@ -97,3 +97,7 @@
   The difference between float and double?
   what can you use to hold ULLONG_MAX ????????
   
+
+  Colors in terminal:
+  http://jafrog.com/2013/11/23/colors-in-terminal.html
+  
