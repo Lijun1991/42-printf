@@ -12,147 +12,121 @@
 
 #include "ftprintf.h"
 
-// void    print_unsignedint_to_base_x(unsigned int nbr, unsigned int base)
-// {
-// 	const char tab[] = "0123456789ABCDEF";
-
-//     if (nbr < base )
-//         ft_putchar(tab[nbr]);
-//     else if (nbr >= base && nbr <= 4294967295)
-//     {
-//         print_unsignedint_to_base_x(nbr / base, base);
-//         ft_putchar(tab[nbr % base]);
-//     }
-// }
-
-// void    print_unsignedint_to_base(unsigned int nbr, unsigned int base)
-// {
-// 	const char tab[] = "0123456789abcdef";
-
-//     if (nbr < base )
-//         ft_putchar(tab[nbr]);
-//     else if (nbr >= base && nbr <= 4294967295)
-//     {
-//         print_unsignedint_to_base(nbr / base, base);
-//         ft_putchar(tab[nbr % base]);
-//     }
-// }
-
-
-
-
-// intmax_t	number_to_print_signed(t_info *conver_info, va_list args)
-// {
-// 	if (ft_strlen(conver_info->len_mod) != 0)
-// 	{
-// 		if (ft_strncmp(conver_info->len_mod, "hh", 2) == 0)
-// 			return ((char)va_arg(args, int));
-// 		if (ft_strncmp(conver_info->len_mod, "h", 1) == 0)
-// 			return ((short)va_arg(args, int));
-// 		if (ft_strncmp(conver_info->len_mod, "l", 1) == 0)
-// 			return (va_arg(args, long int));
-// 		if (ft_strncmp(conver_info->len_mod, "ll", 2) == 0)
-// 			return (va_arg(args, long long int));
-// 		if (ft_strncmp(conver_info->len_mod, "j", 1) == 0)
-// 			return (va_arg(args, intmax_t));
-// 		if (ft_strncmp(conver_info->len_mod, "z", 1) == 0)
-// 			return (va_arg(args, size_t));
-// 	}
-// 	return (va_arg(args, int)); 
-// }
-
-
-void	print_str(char *str)
+static int	norm_print_sign(t_info *conver_info, int sign, char *pre_sign)
 {
-	while(*str != '\0' && *str == '*')
-		str++;
-	while (*str != '\0' && *str != '*')
+	if (ft_strchr("xX", conver_info->conversion_specifier) && \
+		conver_info->flag_info->hash == '#')
 	{
-		ft_putchar(*str);
-		str++;
+		if (conver_info->iszero == 1 && !(sign = 0))
+			pre_sign = "\0\0";
+		else
+		{
+			if (conver_info->conversion_specifier == 'x')
+				pre_sign = "0x\0";
+			else
+				pre_sign = "0X\0";
+			sign = 2;
+		}
 	}
-}
-
-
-int	print_sign(intmax_t nbr, t_info *conver_info, int sign)
-{
-	char* pre_sign;
-
-	pre_sign = "\0\0";
-	if (sign == 1)
-		pre_sign = "-\0";
-	else if (conver_info->flag_info->plus == '+' && sign != 1 && conver_info->conversion_specifier == 'd')
-	{
-		pre_sign = "+\0";
-		sign = 1;
-	}
-	else if (conver_info->flag_info->space == ' ' && sign != 1 && conver_info->conversion_specifier == 'd')
-	{
-		pre_sign = " \0";
-		sign = 1;
-	}
-	else if (conver_info->conversion_specifier == 'x' && ft_strncmp(conver_info->len_mod, "l", 1) == 0)
-	{
-		pre_sign = " \0";
-		sign = 1;
-	}
-	else if (conver_info->conversion_specifier == 'x' && ft_strncmp(conver_info->len_mod, "l", 1) == 0)
+	if (conver_info->conversion_specifier == 'x' && ft_strncmp(\
+		conver_info->len_mod, "l", 1) == 0 && conver_info->isp == 1)
 	{
 		pre_sign = "0x\0";
-		sign = 2;
-	}
-	else if (conver_info->conversion_specifier == 'x' && conver_info->flag_info->hash == '#')
-	{
-		pre_sign = "0x\0";
-		sign = 2;
-	}
-	else if (conver_info->conversion_specifier == 'X' && conver_info->flag_info->hash == '#')
-	{
-		pre_sign = "0X\0";
 		sign = 2;
 	}
 	ft_strcpy(conver_info->pre_sign, pre_sign);
 	return (sign);
 }
 
-char	*print_convert_result(char *str, va_list args)
+int			print_sign(t_info *conver_info, int sign)
 {
-	t_info conver_info;
-	str = get_flag_info(&conver_info, str);
-	str = get_field_width(&conver_info, str);
-	str = get_precision(&conver_info, str);
-	str = get_length_modi(&conver_info, str);
-	if (ft_strchr("diouxXDOUp", conver_info.conversion_specifier))
-		print_number_conversion(&conver_info, conver_info.conversion_specifier, args);
-	else if (ft_strchr("cCsS", conver_info.conversion_specifier))
-		print_char_conversion(&conver_info, conver_info.conversion_specifier, args);
-	else
-		ft_putstr("unsupported conversion specifier");
-	str++;
+	char	*pre_sign;
 
+	pre_sign = "\0\0";
+	if (sign == 1)
+		pre_sign = "-\0";
+	if (conver_info->flag_info->plus == '+' && sign != 1 && \
+		conver_info->conversion_specifier == 'd' && (sign = 1))
+		pre_sign = "+\0";
+	if (conver_info->flag_info->space == ' ' && sign != 1 && \
+		conver_info->conversion_specifier == 'd' && (sign = 1))
+		pre_sign = " \0";
+	if (conver_info->conversion_specifier == 'o' && \
+		conver_info->flag_info->hash == '#')
+	{
+		sign = 1;
+		if (conver_info->iszero == 1)
+			sign = 0;
+		pre_sign = "\0\0";
+	}
+	sign = norm_print_sign(conver_info, sign, pre_sign);
+	return (sign);
+}
+
+char		*get_flag_info(t_info *conver_info, char *str)
+{
+	ft_bzero(conver_info->flag_info, sizeof(t_flag));
+	while (*str == '#' || *str == '-' || *str == '+' \
+		|| *str == ' ' || *str == '0')
+	{
+		if (*str == '#')
+			conver_info->flag_info->hash = '#';
+		else if (*str == '-')
+			conver_info->flag_info->minus = '-';
+		else if (*str == '+')
+			conver_info->flag_info->plus = '+';
+		else if (*str == ' ')
+			conver_info->flag_info->space = ' ';
+		else if (*str == '0')
+			conver_info->flag_info->zero = 'y';
+		else
+			(ft_putstr("something wrong with flags"));
+		str++;
+	}
 	return (str);
 }
 
-void	ft_printf(char *format, ...)
+char		*print_convert_result(char *str, va_list args, t_info *conver_info)
 {
-	va_list args;
-	char *str;
+	str = get_flag_info(conver_info, str);
+	str = get_field_width(conver_info, str, args);
+	str = get_precision(conver_info, str, args);
+	str = get_length_modi(conver_info, str);
+	if (ft_strchr("diouxXDOUpb", conver_info->conversion_specifier))
+		print_number_conversion(conver_info, \
+			conver_info->conversion_specifier, args);
+	else if (ft_strchr("cCsS", conver_info->conversion_specifier))
+		print_char_conversion(conver_info, \
+			conver_info->conversion_specifier, args);
+	else
+		print_unvalid_conversion_specifier(conver_info, *str);
+	str++;
+	return (str);
+}
 
+int			ft_printf(char *format, ...)
+{
+	va_list	args;
+	char	*str;
+	t_info	conver_info;
+
+	conver_info.flag_info = (t_flag*)malloc(sizeof(t_flag) * 1);
+	conver_info.count = 0;
 	va_start(args, format);
 	str = (char*)format;
-
 	while (*str != '\0')
 	{
 		while ((*str != '%') && (*str != '\0'))
 		{
-			ft_putchar(*str); // print string before % sign
+			conver_info.count += pputchar(*str);
 			str++;
 		}
 		if (*str == '%')
 			str++;
-		if (*str != '\0')        // WHY two % doesn't print number????????
-			str = print_convert_result(str, args); // in: "% to null"   out: print %sign to %sign or %sing to '\0'
+		if (*str != '\0')
+			str = print_convert_result(str, args, &conver_info);
 	}
 	va_end(args);
+	free(conver_info.flag_info);
+	return (conver_info.count);
 }
-

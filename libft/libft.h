@@ -6,7 +6,7 @@
 /*   By: lwang <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 17:34:36 by lwang             #+#    #+#             */
-/*   Updated: 2017/03/20 17:35:51 by lwang            ###   ########.fr       */
+/*   Updated: 2017/04/05 21:07:31 by lwang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,9 @@ void				print_bits(unsigned char octet);
 unsigned char		swap_bits(unsigned char octet);
 int					word_count(char *str, char c);
 int					skip_space(char const *str);
+
+int					pputchar(char c);
+int					pputstr(char const *s);
+int					ft_abs(int n);
 
 #endif

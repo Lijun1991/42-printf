@@ -6,7 +6,7 @@
 #    By: lwang <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/11 20:55:34 by lwang             #+#    #+#              #
-#    Updated: 2017/03/20 17:37:30 by lwang            ###   ########.fr        #
+#    Updated: 2017/04/05 21:06:44 by lwang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,8 @@ SRC = ft_atoi.c ft_itoa.c \
 	word_count.c \
 	skip_space.c \
 	ft_strmerge.c\
-	ft_nbrlen.c
+	ft_nbrlen.c\
+	pputchar.c pputstr.c ft_abs.c
 
 
 OBJ = $(SRC:.c=.o)
